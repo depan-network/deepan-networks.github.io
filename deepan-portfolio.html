@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deepan | Network & Cybersecurity Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a1120;
+    --surface: #101a2e;
+    --surface-2: #16223a;
+    --line: #223252;
+    --text: #e9eef7;
+    --muted: #8ea0bd;
+    --cyan: #00e5ff;
+    --magenta: #ff3d81;
+    --violet: #8c6cff;
+    --amber: #ffb703;
+    --grad: linear-gradient(120deg, var(--cyan), var(--violet) 55%, var(--magenta));
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity:0.12;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  h1,h2,h3{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.02em; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; position:relative; z-index:1; }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background: rgba(10,17,32,0.75);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:18px 28px; }
+  .logo{ font-weight:700; font-size:1.1rem; }
+  .logo span{ color: var(--cyan); }
+  .navlinks{ display:flex; gap:28px; font-size:0.92rem; color:var(--muted); }
+  .navlinks a{ transition:color .2s; }
+  .navlinks a:hover{ color:var(--text); }
+
+  /* HERO */
+  header.hero{ padding:100px 0 70px; position:relative; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color: var(--cyan); background: rgba(0,229,255,0.08);
+    border:1px solid rgba(0,229,255,0.3); padding:6px 12px; border-radius:20px;
+    margin-bottom:26px;
+  }
+  .eyebrow::before{ content:"●"; color: var(--cyan); font-size:0.6rem; animation: pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+  .hero h1{
+    font-size: clamp(2.4rem, 6vw, 4.3rem);
+    font-weight:700; line-height:1.05; margin-bottom:22px;
+  }
+  .hero h1 .accent{
+    background: var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.sub{ color:var(--muted); font-size:1.15rem; max-width:560px; margin-bottom:40px; }
+
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 26px; border-radius:8px; font-weight:600; font-size:0.95rem;
+    border:1px solid transparent; cursor:pointer; transition: transform .15s ease, border-color .2s;
+  }
+  .btn-primary{ background: var(--grad); color:#08101f; }
+  .btn-primary:hover{ transform: translateY(-2px); }
+  .btn-ghost{ border-color: var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color: var(--cyan); }
+
+  /* TRACEROUTE */
+  .traceroute{
+    margin-top:70px; background: var(--surface); border:1px solid var(--line);
+    border-radius:14px; overflow:hidden;
+  }
+  .trace-head{
+    display:flex; align-items:center; gap:8px; padding:14px 20px;
+    border-bottom:1px solid var(--line); background: var(--surface-2);
+  }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f56; } .dot.y{ background:#ffbd2e; } .dot.g{ background:#27c93f; }
+  .trace-head span{ margin-left:10px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--muted); }
+  .trace-body{ padding:22px 20px; font-family:'JetBrains Mono', monospace; font-size:0.88rem; }
+  .trace-body .cmd{ color: var(--muted); margin-bottom:16px; }
+  .trace-body .cmd .prompt{ color: var(--cyan); }
+  .hop{
+    display:grid; grid-template-columns:34px 1fr auto; gap:14px; align-items:baseline;
+    padding:10px 0; border-bottom:1px dashed rgba(255,255,255,0.06);
+  }
+  .hop:last-child{ border-bottom:none; }
+  .hop .n{ color: var(--violet); }
+  .hop .host{ color: var(--text); font-weight:500; }
+  .hop .desc{ color: var(--muted); font-size:0.82rem; display:block; margin-top:2px; }
+  .hop .ms{ color: var(--cyan); font-size:0.8rem; white-space:nowrap; }
+
+  /* SECTIONS */
+  section{ padding:90px 0; position:relative; }
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; color: var(--muted);
+    text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px; display:block;
+  }
+  .tag::before{ content:"// "; color: var(--magenta); }
+  section h2{ font-size: clamp(1.7rem, 3.4vw, 2.4rem); margin-bottom:36px; }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:50px; align-items:start; }
+  .about-grid p{ color:var(--muted); margin-bottom:16px; font-size:1.02rem; }
+  .about-grid strong{ color:var(--text); }
+
+  .stat-card{
+    background: var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:22px; margin-bottom:16px;
+  }
+  .stat-card .num{ font-family:'Space Grotesk',sans-serif; font-size:1.9rem; font-weight:700; color: var(--cyan); }
+  .stat-card .label{ color:var(--muted); font-size:0.86rem; margin-top:4px; }
+
+  /* SKILLS - protocol/port style */
+  .skills-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:16px; }
+  .skill-card{
+    background: var(--surface); border:1px solid var(--line); border-radius:10px; padding:18px;
+    transition: border-color .2s, transform .2s;
+  }
+  .skill-card:hover{ border-color: var(--cyan); transform: translateY(-3px); }
+  .skill-card .proto{ font-family:'JetBrains Mono',monospace; color: var(--amber); font-size:0.75rem; margin-bottom:8px; }
+  .skill-card h3{ font-size:1rem; margin-bottom:6px; }
+  .skill-card p{ color:var(--muted); font-size:0.85rem; }
+
+  /* EXPERIENCE */
+  .timeline{ position:relative; padding-left:32px; }
+  .timeline::before{
+    content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px;
+    background: linear-gradient(var(--cyan), var(--violet), var(--magenta));
+  }
+  .tl-item{ position:relative; margin-bottom:42px; }
+  .tl-item::before{
+    content:""; position:absolute; left:-32px; top:4px; width:12px; height:12px;
+    border-radius:50%; background: var(--bg); border:2px solid var(--cyan);
+  }
+  .tl-item .role{ font-size:1.15rem; font-weight:600; }
+  .tl-item .org{ color: var(--cyan); font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin:4px 0 10px; }
+  .tl-item p{ color:var(--muted); font-size:0.95rem; }
+  .status-pill{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:0.72rem;
+    padding:3px 10px; border-radius:20px; margin-left:10px; vertical-align:middle;
+  }
+  .status-pill.active{ background: rgba(39,201,63,0.12); color:#4ee06b; border:1px solid rgba(39,201,63,0.35); }
+  .status-pill.progress{ background: rgba(255,183,3,0.12); color: var(--amber); border:1px solid rgba(255,183,3,0.35); }
+
+  /* PROJECT */
+  .project-card{
+    background: linear-gradient(160deg, var(--surface), var(--surface-2));
+    border:1px solid var(--line); border-radius:16px; padding:36px;
+    position:relative; overflow:hidden;
+  }
+  .project-card::after{
+    content:""; position:absolute; top:-40%; right:-10%; width:300px; height:300px;
+    background: radial-gradient(circle, rgba(140,108,255,0.18), transparent 70%);
+  }
+  .project-card h3{ font-size:1.4rem; margin-bottom:10px; }
+  .project-card .meta{ color: var(--muted); font-size:0.88rem; margin-bottom:18px; font-family:'JetBrains Mono',monospace; }
+  .project-card ul{ color:var(--muted); padding-left:20px; font-size:0.95rem; }
+  .project-card li{ margin-bottom:8px; }
+  .chips{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+  .chip{
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; color: var(--text);
+    border:1px solid var(--line); padding:5px 12px; border-radius:20px; background:rgba(255,255,255,0.03);
+  }
+
+  /* CERTS */
+  .cert-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .cert-badge{
+    display:flex; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--line);
+    border-radius:10px; padding:16px 20px; min-width:220px;
+  }
+  .cert-badge .icon{
+    width:38px; height:38px; border-radius:8px; background: var(--grad);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:#08101f;
+  }
+  .cert-badge .name{ font-weight:600; font-size:0.92rem; }
+  .cert-badge .issuer{ color:var(--muted); font-size:0.78rem; }
+
+  /* CONTACT */
+  .contact-box{
+    background: var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:48px; text-align:center;
+  }
+  .contact-box h2{ margin-bottom:14px; }
+  .contact-box p{ color:var(--muted); margin-bottom:30px; }
+  .contact-links{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .contact-links a{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line); padding:12px 20px;
+    border-radius:8px; font-size:0.9rem; transition: border-color .2s, color .2s;
+  }
+  .contact-links a:hover{ border-color: var(--cyan); color: var(--cyan); }
+
+  footer{ text-align:center; padding:36px 0; color:var(--muted); font-size:0.82rem; border-top:1px solid var(--line); }
+  footer .mono{ color:#4a5b7a; }
+
+  @media (max-width: 760px){
+    .about-grid{ grid-template-columns:1fr; }
+    .navlinks{ display:none; }
+    .hop{ grid-template-columns: 24px 1fr; }
+    .hop .ms{ grid-column:2; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">deepan<span>.</span>net</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#project">Project</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">STATUS: OPEN TO OPPORTUNITIES</span>
+    <h1>Securing networks,<br>one <span class="accent">packet</span> at a time.</h1>
+    <p class="sub">I'm Deepan — a Network & Cybersecurity Engineer building resilient infrastructure and defending it from the ground up.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="#project" class="btn btn-ghost">View current project</a>
+    </div>
+
+    <div class="traceroute">
+      <div class="trace-head">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span>career_path.sh</span>
+      </div>
+      <div class="trace-body">
+        <div class="cmd"><span class="prompt">deepan@career:~$</span> traceroute career.path</div>
+        <div class="hop">
+          <span class="n">01</span>
+          <span><span class="host">B.E. Cybersecurity</span><span class="desc">Foundation in security fundamentals, network defense & risk analysis</span></span>
+          <span class="ms">graduated</span>
+        </div>
+        <div class="hop">
+          <span class="n">02</span>
+          <span><span class="host">Vatanix Technology</span><span class="desc">Currently working — hands-on networking & support role</span></span>
+          <span class="ms">active</span>
+        </div>
+        <div class="hop">
+          <span class="n">03</span>
+          <span><span class="host">Karpagam Engineering College</span><span class="desc">Leading a network setup project — infrastructure design & deployment</span></span>
+          <span class="ms">in progress</span>
+        </div>
+        <div class="hop">
+          <span class="n">04</span>
+          <span><span class="host">*</span><span class="desc">next hop — your opportunity here?</span></span>
+          <span class="ms">pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <span class="tag">about</span>
+    <h2>A little about me</h2>
+    <div class="about-grid">
+      <div>
+        <p>I hold a <strong>B.E. in Cybersecurity</strong> and currently work at <strong>Vatanix Technology</strong>, where I get hands-on with real-world networking and support challenges every day.</p>
+        <p>Alongside my job, I'm leading a <strong>network setup project at Karpagam Engineering College</strong> — designing and deploying infrastructure that's reliable, secure, and built to scale.</p>
+        <p>My interest sits at the intersection of <strong>networking and security</strong> — I like understanding not just how a network is built, but how it can be protected.</p>
+      </div>
+      <div>
+        <div class="stat-card">
+          <div class="num">B.E.</div>
+          <div class="label">Cybersecurity Graduate</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">01</div>
+          <div class="label">Live infrastructure project in progress</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">100%</div>
+          <div class="label">Focused on networking + security</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <span class="tag">skills</span>
+    <h2>Technical toolkit</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="proto">L2/L3</div>
+        <h3>Cisco Networking</h3>
+        <p>VLAN configuration, Inter-VLAN routing, SVI, Router-on-a-Stick, Layer-3 switching.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">IP</div>
+        <h3>Addressing & Routing</h3>
+        <p>TCP/IP, IP addressing, subnetting, VLSM, static routing, LAN-WAN design.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">SEC</div>
+        <h3>Network Security</h3>
+        <p>NAT (PAT/Overload), Access Control Lists (ACL), Fortigate firewall, basic network security, proxy server.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">TOOL</div>
+        <h3>Diagnostics & Tools</h3>
+        <p>Wireshark packet analysis, Cisco Packet Tracer, network troubleshooting.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">RF</div>
+        <h3>Wi-Fi & Connectivity</h3>
+        <p>Wi-Fi networking, network services, wireless infrastructure setup.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">HW</div>
+        <h3>Switch Platforms</h3>
+        <p>Ruckus 8200, Aruba 1930, Aruba 1830 — configuration & deployment.</p>
+      </div>
+      <div class="skill-card">
+        <div class="proto">SUP</div>
+        <h3>IT Infrastructure & Support</h3>
+        <p>IT hardware & networking, server admin, domain registration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <span class="tag">experience</span>
+    <h2>Where I've worked</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="role">Network Support Engineer <span class="status-pill active">current</span></div>
+        <div class="org">Vatanix Technology</div>
+        <p>Handling day-to-day networking and technical support responsibilities, working directly with infrastructure and troubleshooting real-world issues.</p>
+      </div>
+      <div class="tl-item">
+        <div class="role">B.E. Cybersecurity</div>
+        <div class="org">Graduated</div>
+        <p>Built a strong foundation in network security, systems, and defensive practices during my undergraduate degree.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="project">
+  <div class="wrap">
+    <span class="tag">featured project</span>
+    <h2>Currently building</h2>
+    <div class="project-card">
+      <h3>Campus Network Setup — Karpagam Engineering College</h3>
+      <div class="meta">status: in progress</div>
+      <ul>
+        <li>Designing and deploying network infrastructure for the campus environment.</li>
+        <li>Planning connectivity, device configuration, and network reliability.</li>
+        <li>Applying real-world networking + security principles outside of a work setting.</li>
+      </ul>
+      <div class="chips">
+        <span class="chip">Network Design</span>
+        <span class="chip">Infrastructure Deployment</span>
+        <span class="chip">Campus Networking</span>
+        <span class="chip">Ruckus ICX 8200</span>
+        <span class="chip">Aruba 6300</span>
+        <span class="chip">Aruba 1830</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <span class="tag">education</span>
+    <h2>Qualifications</h2>
+    <div class="cert-row">
+      <div class="cert-badge">
+        <div class="icon">B.E</div>
+        <div>
+          <div class="name">B.E. — Cybersecurity</div>
+          <div class="issuer">Completed</div>
+        </div>
+      </div>
+      <div class="cert-badge">
+        <div class="icon">+</div>
+        <div>
+          <div class="name">Add your certifications</div>
+          <div class="issuer">CCNA / CompTIA / etc.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>Let's connect</h2>
+      <p>Open to networking & cybersecurity roles, freelance work, and collaboration.</p>
+      <div class="contact-links">
+        <a href="mailto:depannetwork@gmail.com">📧 depannetwork@gmail.com</a>
+        <a href="https://www.linkedin.com/in/deepan-it-suport-eng/" target="_blank">🔗 LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">// built by Deepan — updated 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
